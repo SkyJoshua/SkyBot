@@ -94,7 +94,7 @@ client.MessageService.MessageReceived += async (message) =>
         }
     }
 
-    if (lowerContent.Contains("/sky suggestcommands") || lowerContent.Contains("/sky suggestcommand"))
+    if (lowerContent.Contains("/sky suggestcommands") || lowerContent.Contains("/sky suggestcommand") || lowerContent.Contains("/sky suggest"))
     {
         if (channelCache.TryGetValue(message.ChannelId, out var channel))
         {
