@@ -57,8 +57,8 @@ available under the same license.
 </p>
 
 <h2>Installation</h2>
-
-<pre><code>git clone https://github.com/SkyJoshua/SkyBot.git
+Fork this Repository
+<pre><code>git clone the fork
 cd SkyBot
 dotnet restore
 dotnet build
