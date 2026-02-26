@@ -61,7 +61,6 @@ Fork this Repository
 <pre><code>git clone the fork
 cd SkyBot
 dotnet restore
-dotnet build
 </code></pre>
 
 <p>
