@@ -32,8 +32,8 @@ SkyBot is a Valour.gg bot.
 
 <p>
 Full privacy policy:<br>
-<a href="https://github.com/SkyJoshua/SkyBot/blob/main/PRIVACY">
-https://github.com/SkyJoshua/SkyBot/blob/main/PRIVACY
+<a href="https://github.com/SkyJoshua/SkyBot/blob/main/PRIVACY.md">
+https://github.com/SkyJoshua/SkyBot/blob/main/PRIVACY.md
 </a>
 </p>
 
