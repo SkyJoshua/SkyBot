@@ -1,12 +1,7 @@
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
-using Valour.Sdk.Services;
-using System.Threading.Tasks;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography.X509Certificates;
-
 
 Env.Load();
 
@@ -60,7 +55,7 @@ client.MessageService.MessageReceived += async (message) =>
         }
     }
 
-    if (lowerContent.StartsWith("/echo "))
+    if (lowerContent.StartsWith("/sky echo "))
     {
 
         if (message.AuthorUserId != 15652354820931584)
@@ -72,7 +67,7 @@ client.MessageService.MessageReceived += async (message) =>
             }
         }
 
-        var reply = message.Content.Substring(6);
+        var reply = message.Content.Substring(10);
 
         if (channelCache.TryGetValue(message.ChannelId, out var channel))
         {
@@ -84,7 +79,7 @@ client.MessageService.MessageReceived += async (message) =>
         }
     }
 
-    if (lowerContent.Contains("/updatedroadmap"))
+    if (lowerContent.Contains("/sky roadmap"))
     {
         if (channelCache.TryGetValue(message.ChannelId, out var channel))
         {
@@ -99,55 +94,21 @@ client.MessageService.MessageReceived += async (message) =>
         }
     }
 
-    if (lowerContent.Contains("/suggestcommand"))
+    if (lowerContent.Contains("/sky suggestcommands") || lowerContent.Contains("/sky suggestcommand"))
     {
         if (channelCache.TryGetValue(message.ChannelId, out var channel))
         {
-            await channel.SendMessageAsync("wer");
+            await channel.SendMessageAsync("You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
         }
     }
 
-    // if (lowerContent.Contains("/suggestcommand"))
-    // {
-    //     if (channelCache.TryGetValue(message.channelId, out var channel))
-    //     {
-    //         await channel.SendMessageAsync("You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk/edit?gid=0#gid=0");
-    //     }
-    // }
-
-    // if (message.Content.StartsWith("/EUA "))
-    // {
-    //     if (message.AuthorUserId != 15652354820931584) return;
-
-    //     var idString = message.Content.Substring(5);
-
-    //     if (long.TryParse(idString, out var newId))
-    //     {
-    //         allowedUserIds.Add(newId);
-
-    //         await message.AddReactionAsync("Added");
-
-    //         Console.WriteLine("Allowed IDs: " + string.Join(", ", allowedUserIds));
-    //     }
-    // }
-
-    // var mentionPattern = new Regex("«@m-(\\d+)»");
-
-    // var matches = mentionPattern.Matches(content);
-
-    // foreach (Match match in matches)
-    // {
-    //     long memberId = long.Parse(match.Groups[1].Value);
-
-    //     Console.WriteLine(client.Cache.ChannelMembers.Count);
-    //     Console.WriteLine(client.Cache.Channels.Count);
-
-    //     if (client.Cache.ChannelMembers.TryGet(memberId, out var member))
-    //     {
-    //         long userId = member.UserId;
-    //         Console.WriteLine($"Found user ID: {userId}");
-    //     }
-    // }
+    if (lowerContent.Contains("/sky source") || lowerContent.Contains("/sky github"))
+    {
+        if (channelCache.TryGetValue(message.ChannelId, out var channel))
+        {
+            await channel.SendMessageAsync("You can see the sourcecode for this bot here: https://github.com/SkyJoshua/SkyBot");
+        }
+    }
 };
 
 Console.WriteLine("Listening for messages...");
