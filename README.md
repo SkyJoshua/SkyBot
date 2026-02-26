@@ -69,11 +69,6 @@ All required NuGet packages will be installed automatically using the
 provided <code>SkyBot.csproj</code> file.
 </p>
 
-<h2>Running the Bot</h2>
-
-<pre><code>dotnet run
-</code></pre>
-
 <h2>Configuration</h2>
 <p>Before running the bot, create a <code>.env</code> file in the root directory of the project with the following content:</p>
 
@@ -89,6 +84,11 @@ provided <code>SkyBot.csproj</code> file.
 Sensitive data such as bot tokens should never be committed to the repository.
 Use environment variables or secure configuration methods.
 </p>
+
+<h2>Running the Bot</h2>
+
+<pre><code>dotnet run
+</code></pre>
 
 <h2>Contributing</h2>
 <p>
