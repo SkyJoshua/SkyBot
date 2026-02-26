@@ -1,7 +1,7 @@
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
-using System.Globalization;
+using SkyBot;
 
 Env.Load();
 
@@ -16,12 +16,13 @@ if (string.IsNullOrWhiteSpace(token))
 }
 
 var loginResult = await client.InitializeUser(token);
-await client.BotService.JoinAllChannelsAsync();
 if (!loginResult.Success)
 {
     Console.WriteLine($"Login Failed: {loginResult.Message}");
     return;
 }
+
+await client.BotService.JoinAllChannelsAsync();
 
 var channelCache = new Dictionary<long, Channel>();
 
@@ -35,6 +36,7 @@ foreach (var planet in client.PlanetService.JoinedPlanets)
 }
 
 
+
 Console.WriteLine($"Logged in as {client.Me.Name} (ID: {client.Me.Id})");
 
 var allowedUserIds = new List<long> { 15652354820931584 };
@@ -42,90 +44,68 @@ var allowedUserIds = new List<long> { 15652354820931584 };
 client.MessageService.MessageReceived += async (message) =>
 {
 
-    string content = message.Content;
-    string lowerContent = content?.ToLower() ?? "";
+    string content = message.Content ?? "";
+    long channelId = message.ChannelId;
+    var member = await message.FetchAuthorMemberAsync();
+
+    if (content is null) return;
 
     if (message.AuthorUserId == client.Me.Id) return;
 
     if (allowedUserIds.Contains(message.AuthorUserId))
     {
-        if (IsSingleEmoji(message.Content))
+        if (Utils.IsSingleEmoji(content))
         {
-            await message.AddReactionAsync(message.Content);
+            await message.AddReactionAsync(content);
         }
     }
 
-    if (lowerContent.StartsWith("/sky echo "))
+    if (content.StartsWith("/sky echo"))
     {
 
-        if (message.AuthorUserId != 15652354820931584)
+        // if (message.AuthorUserId != 15652354820931584) await Utils.SendReplyAsync(channelCache, channelId, "You dont have permission to use this command.");
+
+        var reply = content.Substring(10);
+
+        if (reply is null) await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» Enter a message to echo.");
+
+        reply = $"«@m-{member.Id}» {reply}";
+
+        if (reply.Length > 2048)
         {
-            if (channelCache.TryGetValue(message.ChannelId, out var chan))
-            {
-                await chan.SendMessageAsync("You dont have permission to use this command.");
-                return;
-            }
+            reply = reply.Substring(0, 2048);
         }
 
-        var reply = message.Content.Substring(10);
+        await Utils.SendReplyAsync(channelCache, channelId, reply);
+    };
 
-        if (channelCache.TryGetValue(message.ChannelId, out var channel))
-        {
-            await channel.SendMessageAsync(reply);
-        }
-        else
-        {
-            Console.WriteLine($"Channel {message.ChannelId} not found in cache.");
-        }
-    }
-
-    if (lowerContent.Contains("/sky roadmap"))
+    if (Utils.ContainsAny(content, "/sky valourroadmap", "s/valourroadmap"))
     {
-        if (channelCache.TryGetValue(message.ChannelId, out var channel))
-        {
-            var messageText = @"~~1. Screen sharing~~
-                                2. Documentation
-                                3. Themes Improvements
-                                4. App stores
-                                5. Windows native bugs
-                                6. Tab system bugs
-                                7. Automod/planet moderation";
-            await channel.SendMessageAsync(messageText);
-        }
+        await Utils.SendReplyAsync(channelCache, channelId, @$"«@m-{member.Id}» Here is the up-to-date roadmap for Valour:
+                                                                        ~~1. Screen sharing~~
+                                                                        2. Documentation
+                                                                        3. Themes Improvements
+                                                                        4. App stores
+                                                                        5. Windows native bugs
+                                                                        6. Tab system bugs
+                                                                        7. Automod/planet moderation");
     }
 
-    if (lowerContent.Contains("/sky suggestcommands") || lowerContent.Contains("/sky suggestcommand") || lowerContent.Contains("/sky suggest"))
+    if (Utils.ContainsAny(content, "/sky suggestcommand", "/sky suggestcommands", "/sky suggest", "s/suggestcommand", "s/suggestcommands", "s/suggest"))
     {
-        if (channelCache.TryGetValue(message.ChannelId, out var channel))
-        {
-            await channel.SendMessageAsync("You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
-        }
-    }
+        await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
+    };
 
-    if (lowerContent.Contains("/sky source") || lowerContent.Contains("/sky github"))
+    if (Utils.ContainsAny(content, "/sky source", "/sky github", "s/source", "s/github"))
     {
-        if (channelCache.TryGetValue(message.ChannelId, out var channel))
-        {
-            await channel.SendMessageAsync("You can see the sourcecode for this bot here: https://github.com/SkyJoshua/SkyBot");
-        }
-    }
+        await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/SkyJoshua/SkyBot");
+    };
+
+    if (Utils.ContainsAny(content, "/sky test"))
+    {
+        await Utils.SendReplyAsync(channelCache, channelId, "test");
+    };
 };
 
 Console.WriteLine("Listening for messages...");
 await Task.Delay(Timeout.Infinite);
-
-static bool IsSingleEmoji(string input)
-{
-    if (string.IsNullOrWhiteSpace(input))
-        return false;
-
-    input = input.Trim();
-
-    var enumerator = StringInfo.GetTextElementEnumerator(input);
-    int count = 0;
-
-    while (enumerator.MoveNext())
-        count++;
-
-    return count == 1;
-}
