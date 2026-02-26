@@ -35,8 +35,6 @@ foreach (var planet in client.PlanetService.JoinedPlanets)
     }
 }
 
-
-
 Console.WriteLine($"Logged in as {client.Me.Name} (ID: {client.Me.Id})");
 
 var allowedUserIds = new List<long> { 15652354820931584 };
