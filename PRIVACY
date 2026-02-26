@@ -6,6 +6,8 @@ This bot stores only the minimum data required for functionality.
 
 The bot stores:
 
+- Message IDs
+
 - Channel IDs
 
 - Server (Planet) IDs
