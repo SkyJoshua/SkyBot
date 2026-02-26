@@ -1,0 +1,54 @@
+Effective Date: 2026-02-26
+
+This bot stores only the minimum data required for functionality.
+
+1. Data Collected
+
+The bot stores:
+
+- Message IDs
+
+- Channel IDs
+
+- Server (Planet) IDs
+
+- Planet configuration data associated with those channels
+
+The bot does not store:
+
+- Message content
+
+- User messages
+
+- Direct messages
+
+- Personal account information
+
+2. Purpose of Data Use
+
+Stored data is used solely to:
+
+- Maintain bot configuration
+
+- Associate planets with channels
+
+- Provide core bot functionality
+
+3. Data Storage
+
+Data is stored securely on the bot’s hosting server.
+No data is sold, shared, or transferred to third parties.
+
+4. Data Retention
+
+Configuration data remains stored while the bot is active in a server.
+If the bot is removed from a server, associated configuration data may be deleted.
+
+5. Future Logging
+
+If operational logs are added in the future, this policy will be updated accordingly.
+
+6. Contact
+
+For privacy-related concerns, contact:
+contact@skyjoshua.xyz
