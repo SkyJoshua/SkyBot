@@ -121,25 +121,25 @@ client.MessageService.MessageReceived += async (message) =>
                                                                         7. Automod/planet moderation");
     };
 
-    if (Utils.ContainsAny(content, "/sky suggestcommand", "/sky suggest", "s/suggestcommand", "s/suggest"))
+    if (Utils.ContainsAny(content, "/sky suggest", "s/suggest"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
     };
 
-    if (Utils.ContainsAny(content, "/sky source", "/sky github", "s/source", "s/github"))
+    if (Utils.ContainsAny(content, "/sky source", "s/source"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can see my source code here: https://github.com/SkyJoshua/SkyBot");
     };
 
-    if (Utils.ContainsAny(content, "/sky commands", "/sky cmds", "s/commands", "s/cmds"))
+    if (Utils.ContainsAny(content, "/sky cmds", "s/cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
                                                                 prefixes can be `/sky` or `s/`
                                                                 `/sky echo <text>`
                                                                 `/sky valourroadmap`
-                                                                `/sky suggest|suggestcommand`
-                                                                `/sky source|github`
-                                                                `/sky commands|cmds`
+                                                                `/sky suggest`
+                                                                `/sky source
+                                                                `/sky cmds`
                                                                 `/sky usercount`");
     };
 
