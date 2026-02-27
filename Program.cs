@@ -139,18 +139,6 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, reply);
     };
 
-    if (Utils.ContainsAny(content, "s/valourroadmap"))
-    {
-        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is the up-to-date roadmap for Valour:
-                                                                        ~~1. Screen sharing~~
-                                                                        2. Documentation
-                                                                        3. Themes Improvements
-                                                                        4. App stores
-                                                                        5. Windows native bugs
-                                                                        6. Tab system bugs
-                                                                        7. Automod/planet moderation");
-    };
-
     if (Utils.ContainsAny(content, "s/suggest"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
@@ -179,9 +167,9 @@ client.MessageService.MessageReceived += async (message) =>
                                                             You can see a graph of the user count here: /meow");
     };
 
-    if (Utils.ContainsAny(content, "s/botdev"))
+    if (Utils.ContainsAny(content, "s/devcentral"))
     {
-        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Bot Development planet here: ");
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central planet here: ");
     }
 };
 
