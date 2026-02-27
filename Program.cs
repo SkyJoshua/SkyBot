@@ -2,11 +2,12 @@ using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
 using SkyBot;
+using Valour.Sdk.Services;
+using System.Net.NetworkInformation;
 
 Env.Load();
 
 var token = Environment.GetEnvironmentVariable("TOKEN");
-var channelCache = new Dictionary<long, Channel>();
 var allowedUserIds = new List<long> { 15652354820931584 };
 
 var client = new ValourClient("https://api.valour.gg/");
@@ -26,18 +27,47 @@ if (!loginResult.Success)
 }
 Console.WriteLine($"Logged in as {client.Me.Name} (ID: {client.Me.Id})");
 
-await client.BotService.JoinAllChannelsAsync();
-foreach (var planet in client.PlanetService.JoinedPlanets)
-{
-    foreach (var channel in planet.Channels)
-    {
-        channelCache[channel.Id] = channel;
-        Console.WriteLine($"Cached: {channel.Id}");
-    }
-}
-
 await Utils.UpdateValourUserCountAsync();
 Utils.StartValourUserUpdater();
+
+
+//Dictionaries
+var channelCache = new Dictionary<long, Channel>();
+var InitializedPlanets = new HashSet<long>(); 
+
+
+
+
+_ = Task.Run(async () =>
+{
+    while (true)
+    {
+        foreach (var planet in client.PlanetService.JoinedPlanets)
+        {
+
+            if (InitializedPlanets.Contains(planet.Id)) return;
+
+            Console.WriteLine($"Initializing Planet: {planet.Name}");
+
+            await planet.EnsureReadyAsync();
+            await planet.FetchInitialDataAsync();
+
+            foreach (var channel in planet.Channels)
+            {
+                channelCache[channel.Id] = channel;
+
+                if (channel.ChannelType == Valour.Shared.Models.ChannelTypeEnum.PlanetChat)
+                {
+                    await channel.OpenWithResult("SkyBot");
+                    Console.WriteLine($"Realtime opened for: ${planet.Name} -> {channel.Name}");
+                }
+            }
+            InitializedPlanets.Add(planet.Id);
+        }
+        await Task.Delay(5000);
+    }
+});
+
 
 client.MessageService.MessageReceived += async (message) =>
 {
@@ -59,7 +89,7 @@ client.MessageService.MessageReceived += async (message) =>
         }
     };
 
-    var echoprefixes = new[] { "/sky echo", "s/echo"};
+    var echoprefixes = new[] { "s/echo"};
     if (Utils.ContainsAny(content, echoprefixes))
     {
 
@@ -79,7 +109,7 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, reply);
     };
 
-    var echorawprefixes = new[] { "/sky rawecho", "s/rawecho"};
+    var echorawprefixes = new[] { "s/rawecho"};
     if (Utils.ContainsAny(content, echorawprefixes))
     {
 
@@ -109,7 +139,7 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, reply);
     };
 
-    if (Utils.ContainsAny(content, "/sky valourroadmap", "s/valourroadmap"))
+    if (Utils.ContainsAny(content, "s/valourroadmap"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is the up-to-date roadmap for Valour:
                                                                         ~~1. Screen sharing~~
@@ -121,34 +151,38 @@ client.MessageService.MessageReceived += async (message) =>
                                                                         7. Automod/planet moderation");
     };
 
-    if (Utils.ContainsAny(content, "/sky suggest", "s/suggest"))
+    if (Utils.ContainsAny(content, "s/suggest"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
     };
 
-    if (Utils.ContainsAny(content, "/sky source", "s/source"))
+    if (Utils.ContainsAny(content, "s/source"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can see my source code here: https://github.com/SkyJoshua/SkyBot");
     };
 
-    if (Utils.ContainsAny(content, "/sky cmds", "s/cmds"))
+    if (Utils.ContainsAny(content, "s/cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
-                                                                prefixes can be `/sky` or `s/`
-                                                                `/sky echo <text>`
-                                                                `/sky valourroadmap`
-                                                                `/sky suggest`
-                                                                `/sky source
-                                                                `/sky cmds`
-                                                                `/sky usercount`");
+                                                                `s/echo <text>`
+                                                                `s/valourroadmap`
+                                                                `s/suggest`
+                                                                `s/source
+                                                                `s/cmds`
+                                                                `s/usercount`");
     };
 
-    if (Utils.ContainsAny(content, "/sky usercount", "s/usercount"))
+    if (Utils.ContainsAny(content, "s/usercount"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember}
                                                             Current Valour user count is: {Utils.ValourUserCount:N0}
                                                             You can see a graph of the user count here: /meow");
     };
+
+    if (Utils.ContainsAny(content, "s/botdev"))
+    {
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Bot Development planet here: ");
+    }
 };
 
 Console.WriteLine("Listening for messages...");

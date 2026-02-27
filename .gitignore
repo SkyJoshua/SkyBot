@@ -1,0 +1,5 @@
+bin/
+obj/
+SkyBot.sln
+.env
+Program.cs.old
