@@ -134,7 +134,7 @@ client.MessageService.MessageReceived += async (message) =>
                                                                 - `s/source - Sends link for the source code`
                                                                 - `s/cmds - Shows this list`
                                                                 - `s/usercount - Shows the user count of Valour`
-                                                                - `s/devcentral - Sends the invite link to the Bot Central Planet`");
+                                                                - `s/devcentral - Sends the invite link to the Dev Central Planet`");
     };
 
     if (Utils.ContainsAny(content, $"{prefix}usercount"))
