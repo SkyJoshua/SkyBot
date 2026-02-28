@@ -7,6 +7,8 @@ Env.Load();
 
 var token = Environment.GetEnvironmentVariable("TOKEN");
 var allowedUserIds = new List<long> { 15652354820931584 };
+var ownerId = 15652354820931584;
+var prefix = "s/";
 
 var client = new ValourClient("https://api.valour.gg/");
 client.SetupHttpClient();
@@ -64,7 +66,7 @@ client.MessageService.MessageReceived += async (message) =>
         }
     };
 
-    var echoprefixes = new[] { "s/echo"};
+    var echoprefixes = new[] { $"{prefix}echo"};
     if (Utils.ContainsAny(content, echoprefixes))
     {
 
@@ -84,11 +86,11 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, reply);
     };
 
-    var echorawprefixes = new[] { "s/rawecho"};
+    var echorawprefixes = new[] { $"{prefix}rawecho"};
     if (Utils.ContainsAny(content, echorawprefixes))
     {
 
-        if (message.AuthorUserId != 15652354820931584)
+        if (message.AuthorUserId != ownerId)
         {
             await Utils.SendReplyAsync(channelCache, channelId, "You do not have permission to execute this command.");
             return;
@@ -114,17 +116,17 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, reply);
     };
 
-    if (Utils.ContainsAny(content, "s/suggest"))
+    if (Utils.ContainsAny(content, $"{prefix}suggest"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can suggest a command to be added here: https://docs.google.com/spreadsheets/d/1CzcpLAuMiPL_RODrZ5x25cPj8yE-rR3mEnqrd_2Fbmk");
     };
 
-    if (Utils.ContainsAny(content, "s/source"))
+    if (Utils.ContainsAny(content, $"{prefix}source"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can see my source code here: https://github.com/SkyJoshua/SkyBot");
     };
 
-    if (Utils.ContainsAny(content, "s/cmds"))
+    if (Utils.ContainsAny(content, $"{prefix}cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
                                                                 - `s/echo <text> - Echos text into the chat`
@@ -135,21 +137,21 @@ client.MessageService.MessageReceived += async (message) =>
                                                                 - `s/devcentral - Sends the invite link to the Bot Central Planet`");
     };
 
-    if (Utils.ContainsAny(content, "s/usercount"))
+    if (Utils.ContainsAny(content, $"{prefix}usercount"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember}
                                                             Current Valour user count is: {Utils.ValourUserCount:N0}
                                                             You can see a graph of the user count here: /meow");
     };
 
-    if (Utils.ContainsAny(content, "s/devcentral"))
+    if (Utils.ContainsAny(content, $"{prefix}devcentral"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central planet here: https://app.valour.gg/I/k2tz9c4i");
     }
 
-    if (Utils.ContainsAny(content, "s/invite"))
+    if (Utils.ContainsAny(content, $"{prefix}invite"))
     {
-        if(message.AuthorUserId != 15652354820931584) return;
+        if(message.AuthorUserId != ownerId) return;
 
         string[] args = content.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -174,12 +176,12 @@ client.MessageService.MessageReceived += async (message) =>
 
             if (client.Cache.Planets.TryGet(planetId, out var planet))
             {
+                if (planet is null) return;
                 await Utils.SendReplyAsync(channelCache, channelId, $"Joined planet: {planet.Name}");
             }
             else
             {
-                await Utils.SendReplyAsync(channelCache, channelId, 
-                    "Joined planet, but could not retrieve its name.");
+                await Utils.SendReplyAsync(channelCache, channelId, "Joined planet, but could not retrieve its name.");
             }
         }
         else

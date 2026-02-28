@@ -10,7 +10,6 @@ namespace SkyBot
 
         private static readonly HttpClient _http = new HttpClient();
         private static long _valourUserCount;
-
         public static long ValourUserCount => _valourUserCount;
 
 
