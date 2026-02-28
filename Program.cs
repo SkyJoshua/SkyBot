@@ -2,8 +2,6 @@ using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
 using SkyBot;
-using Valour.Sdk.Services;
-using System.Net.NetworkInformation;
 
 Env.Load();
 
@@ -38,35 +36,12 @@ var InitializedPlanets = new HashSet<long>();
 
 
 
-_ = Task.Run(async () =>
+await Utils.InitializePlanetsAsync(client, channelCache, InitializedPlanets);
+
+client.PlanetService.JoinedPlanetsUpdated += async () =>
 {
-    while (true)
-    {
-        foreach (var planet in client.PlanetService.JoinedPlanets)
-        {
-
-            if (InitializedPlanets.Contains(planet.Id)) return;
-
-            Console.WriteLine($"Initializing Planet: {planet.Name}");
-
-            await planet.EnsureReadyAsync();
-            await planet.FetchInitialDataAsync();
-
-            foreach (var channel in planet.Channels)
-            {
-                channelCache[channel.Id] = channel;
-
-                if (channel.ChannelType == Valour.Shared.Models.ChannelTypeEnum.PlanetChat)
-                {
-                    await channel.OpenWithResult("SkyBot");
-                    Console.WriteLine($"Realtime opened for: ${planet.Name} -> {channel.Name}");
-                }
-            }
-            InitializedPlanets.Add(planet.Id);
-        }
-        await Task.Delay(5000);
-    }
-});
+    await Utils.InitializePlanetsAsync(client, channelCache, InitializedPlanets);
+};
 
 
 client.MessageService.MessageReceived += async (message) =>
@@ -171,6 +146,47 @@ client.MessageService.MessageReceived += async (message) =>
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central planet here: https://app.valour.gg/I/k2tz9c4i");
     }
+
+    if (Utils.ContainsAny(content, "s/invite"))
+    {
+        if(message.AuthorUserId != 15652354820931584) return;
+
+        string[] args = content.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        if (args.Length < 2)
+        {
+            await Utils.SendReplyAsync(channelCache, channelId, "Usage: s/invite <planetId> [inviteCode]");
+        }
+
+        if (!long.TryParse(args[1], out long planetId))
+        {
+            await Utils.SendReplyAsync(channelCache, channelId, "Planet ID is not valid.");
+            return;
+        }
+
+        string inviteCode = args.Length > 2 ? args[2] : "";
+
+        var joinResult = await client.PlanetService.JoinPlanetAsync(planetId, inviteCode);
+
+        if (joinResult.Success && joinResult.Data != null)
+        {
+            await Task.Delay(200);
+
+            if (client.Cache.Planets.TryGet(planetId, out var planet))
+            {
+                await Utils.SendReplyAsync(channelCache, channelId, $"Joined planet: {planet.Name}");
+            }
+            else
+            {
+                await Utils.SendReplyAsync(channelCache, channelId, 
+                    "Joined planet, but could not retrieve its name.");
+            }
+        }
+        else
+        {
+            await Utils.SendReplyAsync(channelCache, channelId, $"Failed to join planet: {joinResult.Message}");
+        }
+    };
 };
 
 Console.WriteLine("Listening for messages...");
