@@ -80,10 +80,7 @@ namespace SkyBot
             timer.Start();
         }
 
-        public static async Task InitializePlanetsAsync(
-            ValourClient client,
-            Dictionary<long, Channel> channelCache,
-            HashSet<long> initializedPlanets)
+        public static async Task InitializePlanetsAsync(ValourClient client, Dictionary<long, Channel> channelCache, HashSet<long> initializedPlanets)
         {
             foreach (var planet in client.PlanetService.JoinedPlanets)
             {
