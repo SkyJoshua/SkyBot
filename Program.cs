@@ -152,12 +152,12 @@ client.MessageService.MessageReceived += async (message) =>
     if (Utils.ContainsAny(content, "s/cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
-                                                                `s/echo <text>`
-                                                                `s/valourroadmap`
-                                                                `s/suggest`
-                                                                `s/source
-                                                                `s/cmds`
-                                                                `s/usercount`");
+                                                                - `s/echo <text> - Echos text into the chat`
+                                                                - `s/suggest - Shares the suggestions link`
+                                                                - `s/source - Sends link for the source code`
+                                                                - `s/cmds - Shows this list`
+                                                                - `s/usercount - Shows the user count of Valour`
+                                                                - `s/devcentral - Sends the invite link to the Bot Central Planet`");
     };
 
     if (Utils.ContainsAny(content, "s/usercount"))
@@ -169,7 +169,7 @@ client.MessageService.MessageReceived += async (message) =>
 
     if (Utils.ContainsAny(content, "s/devcentral"))
     {
-        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central planet here: ");
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central planet here: https://app.valour.gg/I/k2tz9c4i");
     }
 };
 
