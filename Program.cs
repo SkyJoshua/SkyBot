@@ -137,7 +137,7 @@ client.MessageService.MessageReceived += async (message) =>
                                                                 - `s/echo <text> - Echos text into the chat`
                                                                 - `s/suggest - Shares the suggestions link`
                                                                 - `s/source - Sends link for the source code`
-                                                                - `s/joincode - Sends a link to a github that you can use to make your bot join your planet.
+                                                                - `s/joincode - Sends a link to a github that you can use to make your bot join your planet.`
                                                                 - `s/cmds - Shows this list`
                                                                 - `s/usercount - Shows the user count of Valour`
                                                                 - `s/devcentral - Sends the invite link to the Dev Central Planet`");
