@@ -152,7 +152,7 @@ client.MessageService.MessageReceived += async (message) =>
 
     if (Utils.ContainsAny(content, $"{prefix}devcentral"))
     {
-        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central planet here: https://app.valour.gg/I/k2tz9c4i");
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central (ID: 42439954653511681) planet here: https://app.valour.gg/I/k2tz9c4i");
     }
 
     if (Utils.ContainsAny(content, $"{prefix}invite"))
