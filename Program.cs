@@ -145,7 +145,9 @@ client.MessageService.MessageReceived += async (message) =>
                                                                 - `s/joincode - Sends a link to a github that you can use to make your bot join your planet.`
                                                                 - `s/cmds - Shows this list`
                                                                 - `s/usercount - Shows the user count of Valour`
-                                                                - `s/devcentral - Sends the invite link to the Dev Central Planet`");
+                                                                - `s/devcentral - Sends the invite link to the Dev Central Planet`
+                                                                - `s/mc - Sends ValourSMP IP`
+                                                                ");
     };
 
     if (Utils.ContainsAny(content, $"{prefix}usercount"))
@@ -158,6 +160,11 @@ client.MessageService.MessageReceived += async (message) =>
     if (Utils.ContainsAny(content, $"{prefix}devcentral"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Dev Central (ID: 42439954653511681) planet here: https://app.valour.gg/I/k2tz9c4i");
+    }
+
+    if (Utils.ContainsAny(content, $"{prefix}mc"))
+    {
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the ValourSMP Minecraft Server by using this ip: valour.sxsc.xyz");
     }
 
     if (Utils.ContainsAny(content, $"{prefix}invite"))
