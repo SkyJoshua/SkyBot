@@ -131,11 +131,6 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can use this to join a planet: https://github.com/SkyJoshua/JoinPlanet");
     };
 
-    if (Utils.ContainsAny(content, $"{prefix}uploads"))
-    {
-        await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} All uploads are currently broken on Valour. We are sorry for the inconvenience");
-    };
-
     if (Utils.ContainsAny(content, $"{prefix}cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
