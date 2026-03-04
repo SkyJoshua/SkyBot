@@ -164,7 +164,7 @@ client.MessageService.MessageReceived += async (message) =>
 
     if (Utils.ContainsAny(content, $"{prefix}mc"))
     {
-        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Unofficial ValourSMP Minecraft Server by using this ip: valour.sxsc.xyz");
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Unofficial ValourSMP Minecraft Server by using this ip: `valour.sxsc.xyz`");
     }
 
     if (Utils.ContainsAny(content, $"{prefix}invite"))
