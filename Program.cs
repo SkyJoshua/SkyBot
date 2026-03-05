@@ -136,6 +136,11 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can use this website to easily add your bot to a planet: https://skyjoshua.xyz/planetjoiner");
     };
 
+    if (Utils.ContainsAny(content, $"{prefix}api", $"{prefix}swagger"))
+    {
+        await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} Here is a link to the Swagger API: https://api.valour.gg/swagger");
+    };
+
     if (Utils.ContainsAny(content, $"{prefix}cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
@@ -143,6 +148,8 @@ client.MessageService.MessageReceived += async (message) =>
                                                                 - `s/suggest - Shares the suggestions link`
                                                                 - `s/source - Sends link for the source code`
                                                                 - `s/joincode - Sends a link to a github that you can use to make your bot join your planet.`
+                                                                - `s/joinsite - Sends a link to a website that you can use to make yout bot join your planet.`
+                                                                - `s/api|swagger - Sends a link to the Swagger API`
                                                                 - `s/cmds - Shows this list`
                                                                 - `s/usercount - Shows the user count of Valour`
                                                                 - `s/devcentral - Sends the invite link to the Dev Central Planet`
