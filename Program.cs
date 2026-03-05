@@ -131,6 +131,11 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can use this to join a planet: https://github.com/SkyJoshua/JoinPlanet");
     };
 
+    if (Utils.ContainsAny(content, $"{prefix}joinsite"))
+    {
+        await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} You can use this website to easily add your bot to a planet: https://skyjoshua.xyz/planetjoiner");
+    };
+
     if (Utils.ContainsAny(content, $"{prefix}cmds"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
