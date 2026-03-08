@@ -171,7 +171,8 @@ client.MessageService.MessageReceived += async (message) =>
 
     if (Utils.ContainsAny(content, $"{prefix}mc"))
     {
-        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Unofficial ValourSMP Minecraft Server by using this ip: `valour.sxsc.xyz`
+        await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} you can join the Unofficial ValourSMP Minecraft Server by using this ip: 
+                                                                Java: `valour.sxsc.xyz`, Bedrock: `valourbr.sxsc.xyz` Both with the default ports.
                                                                 Cool features can be found here: https://sxsc.xyz/servers/valour/");
     }
 
