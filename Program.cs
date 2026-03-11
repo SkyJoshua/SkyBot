@@ -141,7 +141,7 @@ client.MessageService.MessageReceived += async (message) =>
         await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} Here is a link to the Swagger API: https://api.valour.gg/swagger");
     };
 
-    if (Utils.ContainsAny(content, $"{prefix}cmds"))
+    if (Utils.ContainsAny(content, $"{prefix}cmds", $"{prefix}help"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, @$"{pingMember} Here is a list of my commands:
                                                                 - `s/echo <text> - Echos text into the chat`
