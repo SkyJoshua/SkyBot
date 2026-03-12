@@ -2,14 +2,13 @@ using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
 using SkyBot;
-using System.Text;
 
 Env.Load();
 
 var token = Environment.GetEnvironmentVariable("TOKEN");
 var allowedUserIds = new List<long> { 15652354820931584 };
 var ownerId = 15652354820931584;
-var prefix = "sd/";
+var prefix = Environment.GetEnvironmentVariable("PREFIX");
 
 var client = new ValourClient("https://api.valour.gg/");
 client.SetupHttpClient();
