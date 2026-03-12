@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using Valour.Sdk.Models;
 using Valour.Sdk.Client;
+using System.Text;
 
 namespace SkyBot
 {
@@ -103,6 +104,34 @@ namespace SkyBot
                 }
 
                 initializedPlanets.Add(planet.Id);
+            }
+        }
+
+        public class ReactionInterceptor : TextWriter
+        {
+            private readonly TextWriter _original;
+            public bool DetectedAlreadyExists { get; private set; }
+            public override Encoding Encoding => _original.Encoding;
+
+            public ReactionInterceptor(TextWriter original)
+            {
+                _original = original;
+            }
+
+            public void Reset() => DetectedAlreadyExists = false;
+
+            public override void WriteLine(string value)
+            {
+                if (value?.Contains("Reaction already exists") == true)
+                    DetectedAlreadyExists = true;
+                _original.WriteLine(value);
+            }
+
+            public override void Write(string value)
+            {
+                if (value?.Contains("Reaction already exists") == true)
+                    DetectedAlreadyExists = true;
+                _original.Write(value);
             }
         }
     };
