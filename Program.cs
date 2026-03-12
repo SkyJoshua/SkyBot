@@ -8,7 +8,7 @@ Env.Load();
 var token = Environment.GetEnvironmentVariable("TOKEN");
 var allowedUserIds = new List<long> { 15652354820931584 };
 var ownerId = 15652354820931584;
-var prefix = Environment.GetEnvironmentVariable("PREFIX");
+var prefix = Environment.GetEnvironmentVariable("DEVPREFIX");
 
 var client = new ValourClient("https://api.valour.gg/");
 client.SetupHttpClient();

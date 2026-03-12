@@ -72,6 +72,7 @@ provided <code>SkyBot.csproj</code> file.
 <p>Before running the bot, create a <code>.env</code> file in the root directory of the project with the following content:</p>
 
 <pre><code>TOKEN=your-bot-token-here
+DEVPREFIX=your-prefix-here
 </code></pre>
 
 <ul>
