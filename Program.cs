@@ -86,7 +86,7 @@ client.MessageService.MessageReceived += async (message) =>
             {
                 Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
                 Console.WriteLine("Reaction already exists, stopping.");
-                break;
+                break; 
             }
         }
 
