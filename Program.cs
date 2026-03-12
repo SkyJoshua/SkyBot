@@ -67,32 +67,6 @@ client.MessageService.MessageReceived += async (message) =>
         }
     };
 
-    if (Utils.ContainsAny(content, $"{prefix}react"))
-    {
-        if (message.AuthorUserId != ownerId) return;
-
-        string[] args = content.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (args.Length < 2) return;
-        string emoji = args[1];
-
-        var interceptor = new Utils.ReactionInterceptor(Console.Out);
-        Console.SetOut(interceptor);
-
-        while (true)
-        {
-            interceptor.Reset();
-            await message.AddReactionAsync(emoji);
-            if (interceptor.DetectedAlreadyExists)
-            {
-                Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
-                Console.WriteLine("Reaction already exists, stopping.");
-                break; 
-            }
-        }
-
-        Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
-    }
-
     var echoprefixes = new[] { $"{prefix}echo"};
     if (Utils.ContainsAny(content, echoprefixes))
     {
