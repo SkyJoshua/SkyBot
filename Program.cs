@@ -2,6 +2,7 @@ using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
 using SkyBot;
+using System.Reflection;
 
 Env.Load();
 
@@ -33,6 +34,7 @@ Utils.StartValourUserUpdater();
 
 //Dictionaries
 var channelCache = new Dictionary<long, Channel>();
+var messageCache = new Dictionary<long, string>();
 var InitializedPlanets = new HashSet<long>(); 
 
 
@@ -45,8 +47,50 @@ client.PlanetService.JoinedPlanetsUpdated += async () =>
     await Utils.InitializePlanetsAsync(client, channelCache, InitializedPlanets);
 };
 
+client.MessageService.MessageReceived += OnMessageReceived;
+client.MessageService.MessageEdited += OnMessageEdit;
+client.MessageService.MessageDeleted += OnMessageDelete;
 
-client.MessageService.MessageReceived += async (message) =>
+async Task OnMessageDelete(Message message)
+{
+    try
+    {
+        var planet = await client.PlanetService.FetchPlanetAsync(message.PlanetId.Value);
+        var member = await planet.FetchMemberAsync(message.AuthorMemberId.Value);
+        Console.WriteLine($"{member.Name} deleted the message: {message.Content}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+    }
+}
+
+async Task OnMessageEdit(Message message)
+{
+    try
+    {
+        var planet = await client.PlanetService.FetchPlanetAsync(message.PlanetId.Value);
+        var member = await planet.FetchMemberAsync(message.AuthorMemberId.Value);
+
+        var before = messageCache.TryGetValue(message.Id, out var old) ? old : "(unknown)";
+
+        var after = message.Content;
+
+        Console.WriteLine($"{member.Name} edited a message.");
+        Console.WriteLine($"Before: {before}");
+        Console.WriteLine($"After:  {after}");
+
+        messageCache[message.Id] = after;
+
+    } catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+    }
+};
+
+async Task OnMessageReceived(Message message)
 {
     string content = message.Content ?? "";
     long channelId = message.ChannelId;
@@ -57,6 +101,7 @@ client.MessageService.MessageReceived += async (message) =>
 
     if (message.AuthorUserId == client.Me.Id) return;
 
+    messageCache[message.Id] = message.Content;
 
     if (allowedUserIds.Contains(message.AuthorUserId))
     {
@@ -71,21 +116,41 @@ client.MessageService.MessageReceived += async (message) =>
         if (message.AuthorUserId != ownerId) return;
 
         string[] args = content.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (args.Length < 2) return;
-        string emoji = args[1];
 
+        bool useRandom = args.Length < 2;
+        string emoji = !useRandom ? args[1] : null;
+
+        List<string> allEmojis = null;
+        if (useRandom)
+        {
+            try
+            {
+                using var http = new HttpClient();
+                var json = await http.GetStringAsync("https://unpkg.com/unicode-emoji-json@0.0.4/data-ordered-emoji.json");
+                allEmojis = System.Text.Json.JsonSerializer.Deserialize<List<string>>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to fetch emoji list: {ex.Message}");
+                await Utils.SendReplyAsync(channelCache, channelId, $"{pingMember} Failed to fetch emoji list.");
+                return;
+            }
+        }
+
+        var random = new Random();
         var interceptor = new Utils.ReactionInterceptor(Console.Out);
         Console.SetOut(interceptor);
 
         while (true)
         {
             interceptor.Reset();
-            await message.AddReactionAsync(emoji);
+            string currentEmoji = useRandom ? allEmojis[random.Next(allEmojis.Count)] : emoji;
+            await message.AddReactionAsync(currentEmoji);
             if (interceptor.DetectedAlreadyExists)
             {
                 Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
-                Console.WriteLine("Reaction already exists, stopping.");
-                break; 
+                Console.WriteLine("Stopping react spam.");
+                break;
             }
         }
 
