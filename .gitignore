@@ -1,5 +1,5 @@
-bin/
-obj/
-SkyBot.sln
 .env
-Program.cs.old
+.gitignore
+SkyBot/bin/
+SkyBot/obj/
+SkyBot/SkyBot.sln
