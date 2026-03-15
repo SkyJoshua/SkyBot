@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using DotNetEnv;
+using SkyBot.Helpers;
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 
@@ -20,6 +21,9 @@ namespace SkyBot.Services
             var loginResult = await client.InitializeUser(token);
             if (!loginResult.Success) {Console.WriteLine($"Login Failed: {loginResult.Message}"); return;}
             Console.WriteLine($"Logged in as {client.Me.Name} (ID: {client.Me.Id})");
+
+            await ValourUsercountHelper.UpdateUsercount();
+            ValourUsercountHelper.StartUpdater();
 
             await PlanetService.InitializePlanetsAsync(client, channelCache, initalizedPlanets);
             client.PlanetService.JoinedPlanetsUpdated += async () =>

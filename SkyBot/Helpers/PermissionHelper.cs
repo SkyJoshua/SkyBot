@@ -15,5 +15,13 @@ namespace SkyBot.Helpers
                 ? permissions.All(permission => member.HasPermission(permission))
                 : permissions.Any(permission => member.HasPermission(permission));
         }
+
+        public static async Task<bool> IsOwner(PlanetMember member)
+        {
+            
+            if (member == null) return false;
+            if (member.UserId == Config.OwnerId) return true;
+            return false;
+        }
     }
 }

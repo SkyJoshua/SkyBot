@@ -35,10 +35,6 @@ namespace SkyBot
 
                     Console.WriteLine("Ready and listening...");
                     await Task.Delay(Timeout.Infinite);
-                } catch (InvalidOperationException ex) when (ex.Message.Contains("concurrent update"))
-                {
-                    Console.WriteLine("Concurrent update detected, restarting...");
-                    await Task.Delay(1000);
                 } catch (Exception ex)
                 {
                     Console.WriteLine($"Fatal error: {ex.Message}");

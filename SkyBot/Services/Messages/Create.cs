@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
-using Skybot;
 using SkyBot.Commands;
 using SkyBot.Helpers;
+using SkyBot.Models;
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 
@@ -15,36 +15,38 @@ namespace SkyBot.Services.Messages
             Message message
         )
         {
-            string prefix = Config.Prefix;
-
             if (message.AuthorUserId == client.Me.Id) return;
-
+            string prefix = Config.Prefix;
             string content = message.Content ?? "";
             if (string.IsNullOrWhiteSpace(content)) return;
-            if (!content.StartsWith(prefix)) return;
+            if (!content.ToLower().StartsWith(prefix)) return;
 
             long channelId = message.ChannelId;
-
             PlanetMember member = await message.FetchAuthorMemberAsync();
-            
             var parts = content.Substring(prefix.Length).Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0) return;
             
             string command = parts[0].ToLower();
             string[] args = parts[1..];
 
-            switch (command)
+            if (CommandRegistry.Commands.TryGetValue(command, out var handler))
             {
-                case "help":
-                    await HelpCommand.Execute(channelCache, channelId, prefix, member);
-                    break;
-
-                default:
-                    if (channelCache.TryGetValue(channelId, out var channel))
-                    {
-                        await channel.SendMessageAsync($"{MentionHelper.Mention(member)} Unknown command.");
-                    }
-                    break;
+                await handler.Execute(new CommandContext
+                {
+                    ChannelCache = channelCache,
+                    ChannelId = channelId,
+                    Member = member,
+                    Planet = message.Planet,
+                    Args = args,
+                    Message = message,
+                    Client = client
+                });
+            } else
+            {
+                if (channelCache.TryGetValue(channelId, out var channel))
+                {
+                    await channel.SendMessageAsync($"{MentionHelper.Mention(member)} Unknown command.");
+                }
             }
         }
     }
