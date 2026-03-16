@@ -2,61 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+</head>
 <body>
-
 <h1>Privacy Policy</h1>
-<p><span class="bold">Effective Date:</span> February 26, 2026</p>
-<p>This Privacy Policy describes how the bot (“the Bot”) collects, uses, and stores information when used within a server.</p>
+<p><strong>Effective Date:</strong> March 16, 2026</p>
+<p>This Privacy Policy describes how SkyBot ("the Bot") collects, uses, and stores information when used within a Valour planet.</p>
 <hr>
-
 <h2>1. Information Collected</h2>
-<p>The Bot collects and stores only the minimum data necessary to provide its intended functionality.</p>
-
-<h3>Information Stored:</h3>
+<p>The Bot collects only the minimum data necessary to provide its intended functionality. All data is stored in-memory and is lost when the Bot restarts. The Bot does not persist any data to disk.</p>
+<h3>Information Temporarily Held in Memory:</h3>
 <ol>
-  <li>Message IDs</li>
-  <li>Channel IDs</li>
-  <li>Server (“Planet”) IDs</li>
-  <li>Planet Configuration data associated with those channels</li>
+  <li>Channel IDs (for routing messages and commands)</li>
+  <li>Planet IDs (for planet-specific operations)</li>
+  <li>Member IDs (for moderation commands)</li>
 </ol>
-
-<h3>Information Not Stored:</h3>
+<h3>Information Never Stored:</h3>
 <ol>
   <li>Message content</li>
-  <li>User-generated message content</li>
-  <li>Direct Messages (“DMs”)</li>
+  <li>Direct Messages ("DMs")</li>
   <li>Personal account information (including usernames, email addresses, or other personally identifiable information)</li>
+  <li>Any data that persists beyond the Bot's current session</li>
 </ol>
 <hr>
-
 <h2>2. Purpose of Data Collection</h2>
-<p>Stored information is used exclusively to:</p>
+<p>Temporarily held information is used exclusively to:</p>
 <ol>
-  <li>Maintain server-specific configuration settings</li>
-  <li>Associate Planets with designated channels</li>
-  <li>Enable and maintain core bot functionality</li>
+  <li>Route commands to the correct channels and planets</li>
+  <li>Enable moderation commands such as ban, unban, and kick</li>
+  <li>Enable core bot functionality during the current session</li>
 </ol>
-<p>The Bot does not use stored information for profiling, marketing, analytics, or tracking purposes.</p>
+<p>The Bot does not use any information for profiling, marketing, analytics, or tracking purposes.</p>
 <hr>
-
 <h2>3. Data Storage and Security</h2>
-<p>All stored data is maintained securely on the Bot’s hosting server. Reasonable technical measures are implemented to protect stored information against unauthorized access, alteration, or disclosure.</p>
-<p>The Bot does not sell, rent, trade, or otherwise share stored data with third parties.</p>
+<p>Since all data is stored in-memory only, no data is written to disk, databases, or any external storage. All temporarily held data is automatically cleared when the Bot restarts.</p>
+<p>The Bot does not sell, rent, trade, or otherwise share any data with third parties.</p>
 <hr>
-
 <h2>4. Data Retention</h2>
-<p>Configuration data is retained only while the Bot remains active within a server.</p>
-<p>If the Bot is removed from a server, associated configuration data may be deleted within a reasonable timeframe.</p>
+<p>All data is held only for the duration of the Bot's current session. No data is retained beyond a restart. There is no mechanism for long-term data storage in this Bot.</p>
 <hr>
-
-<h2>5. Future Changes to Logging or Data Practices</h2>
+<h2>5. Self-Hosting</h2>
+<p>SkyBot is designed for self-hosting. If you choose to host your own instance of SkyBot, you are responsible for the privacy and security of any data processed by your instance. This policy applies to the official instance of SkyBot only.</p>
+<hr>
+<h2>6. Future Changes to Logging or Data Practices</h2>
 <p>If additional operational logging or data collection practices are introduced in the future, this Privacy Policy will be updated to reflect those changes prior to implementation.</p>
 <p>Continued use of the Bot after updates to this policy constitutes acceptance of the revised policy.</p>
 <hr>
-
-<h2>6. Contact Information</h2>
+<h2>7. Contact Information</h2>
 <p>For privacy-related inquiries, requests, or concerns, please contact:</p>
-<p><span class="bold">Email:</span> contact@skyjoshua.xyz</p>
-
+<p><strong>Email:</strong> contact@skyjoshua.xyz</p>
 </body>
 </html>

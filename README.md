@@ -1,106 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-
 <h1>SkyBot</h1>
-
 <p>
-SkyBot is a Valour.gg bot.
+SkyBot is a Valour.gg bot built with .NET 10.
 </p>
-
 <h2>Features</h2>
 <ul>
     <li>Designed for self-hosting</li>
     <li>Open-source under AGPL-3.0</li>
-    <li>Built with .NET</li>
+    <li>Built with .NET 10</li>
+    <li>Command system with automatic registration</li>
+    <li>Moderation commands (ban, unban, kick)</li>
+    <li>Fun commands (8ball, coinflip, dice, rock paper scissors, and more)</li>
+    <li>Info commands (user info, planet info, ping, uptime)</li>
 </ul>
-
 <h2>Data &amp; Privacy</h2>
-<p>SkyBot stores only the minimum data required for operation:</p>
-<ul>
-    <li>Message IDs</li>
-    <li>Server (Planet) IDs</li>
-    <li>Channel IDs</li>
-</ul>
-
+<p>SkyBot stores only the minimum data required for operation. All data is stored in-memory and is lost on restart. SkyBot does <strong>not</strong> persist any data to disk.</p>
 <p>SkyBot does <strong>not</strong> store:</p>
 <ul>
     <li>Message content</li>
     <li>Direct messages</li>
     <li>Personal user data</li>
 </ul>
-
 <p>
 Full privacy policy:<br>
 <a href="https://github.com/SkyJoshua/SkyBot/blob/main/PRIVACY.md">
 https://github.com/SkyJoshua/SkyBot/blob/main/PRIVACY.md
 </a>
 </p>
-
 <h2>License</h2>
 <p>
 This project is licensed under the
 <strong>GNU Affero General Public License v3.0 (AGPL-3.0)</strong>.
 </p>
-
 <p>
 See the LICENSE file for details:<br>
 <a href="https://github.com/SkyJoshua/SkyBot/blob/main/LICENSE">
 https://github.com/SkyJoshua/SkyBot/blob/main/LICENSE
 </a>
 </p>
-
 <p>
 Because this project is licensed under AGPL-3.0, if you modify and deploy it
 publicly (including as a hosted service), you must make your source code
 available under the same license.
 </p>
-
+<h2>Requirements</h2>
+<ul>
+    <li>.NET 10</li>
+    <li>A Valour bot token</li>
+</ul>
 <h2>Installation</h2>
-Fork this Repository
+<p>Fork this repository, then:</p>
 <pre><code>git clone https://github.com/YOUR_USERNAME/SkyBot.git
-cd SkyBot
+cd SkyBot/SkyBot
 dotnet restore
 </code></pre>
-
 <p>
 All required NuGet packages will be installed automatically using the
 provided <code>SkyBot.csproj</code> file.
 </p>
-
 <h2>Configuration</h2>
-<p>Before running the bot, create a <code>.env</code> file in the root directory of the project with the following content:</p>
-
+<p>Create a <code>.env</code> file in the root directory of the project with your bot token:</p>
 <pre><code>TOKEN=your-bot-token-here
-PREFIX=your-prefix-here
 </code></pre>
-
+<p>Then open <code>Config.cs</code> and update the following values:</p>
+<pre><code>public static readonly long OwnerId = your-owner-id-here;
+public static readonly string Prefix = "your-prefix-here";
+public static readonly string SourceLink = "your-source-link-here";
+</code></pre>
 <ul>
-    <li>Replace <code>your-bot-token-here</code> with your actual bot token.</li>
-    <li>Ensure the bot has proper permissions in the target server.</li>
+    <li>Replace <code>your-owner-id-here</code> with your Valour user ID.</li>
+    <li>Replace <code>your-prefix-here</code> with your desired command prefix (e.g. <code>s/</code>).</li>
+    <li>Replace <code>your-source-link-here</code> with a link to your fork of the repository.</li>
 </ul>
-
-<p>
-Sensitive data such as bot tokens should never be committed to the repository.
-Use environment variables or secure configuration methods.
-</p>
-
+<p>Never commit your <code>.env</code> file to the repository. Ensure it is listed in your <code>.gitignore</code>.</p>
 <h2>Running the Bot</h2>
-
-<pre><code>dotnet run
-</code></pre>
-
+<pre><code>dotnet run</code></pre>
 <h2>Contributing</h2>
 <p>
 Contributions are welcome. By submitting a contribution, you agree that your
 contributions will be licensed under AGPL-3.0.
 </p>
-
 <ol>
     <li>Fork the repository</li>
     <li>Create a feature branch</li>
     <li>Submit a pull request</li>
 </ol>
-
 </body>
 </html>
