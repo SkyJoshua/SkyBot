@@ -13,7 +13,7 @@ namespace SkyBot.Commands
         public string[] Aliases => ["h"];
         public string Description => "Shows all the commands and their descriptions.";
         public string Section => "Info";
-        public string Usage => "help|h [section] [page]";
+        public string Usage => "help [section] [page]";
         private const int PageSize = 5;
 
         public async Task Execute(CommandContext ctx)
@@ -22,8 +22,6 @@ namespace SkyBot.Commands
             long channelId = ctx.ChannelId;
             string[] args = ctx.Args;
             PlanetMember member = ctx.Member;
-
-            bool isOwner = await PermissionHelper.IsOwner(member);
 
             if (!channelCache.TryGetValue(channelId, out var channel)) return;
 
@@ -35,8 +33,8 @@ namespace SkyBot.Commands
                 foreach (var section in CommandRegistry.Sections.Keys)
                 {
                     if (section == "template") continue;
-                    if (section == "dev" && !isOwner) continue;
-                    if (section == "mod" && !PermissionHelper.HasPermAsync(member, [PlanetPermissions.Kick, PlanetPermissions.Ban, PlanetPermissions.ManageRoles]).Result) continue;
+                    if (section == "dev" && !PermissionHelper.IsOwner(member)) continue;
+                    if (section == "mod" && !PermissionHelper.HasPerm(member, [PlanetPermissions.Kick, PlanetPermissions.Ban, PlanetPermissions.ManageRoles])) continue;
                     sb.AppendLine($"- `{section.ToTitleCase()}` ({CommandRegistry.Sections[section].Count})");
                 }
                 sb.AppendLine($"\nUse `{Config.Prefix}help <category>` to see commands in a category.");
@@ -52,13 +50,13 @@ namespace SkyBot.Commands
                 return;
             }
 
-            if (sectionName == "dev" && !isOwner)
+            if (sectionName == "dev" && !PermissionHelper.IsOwner(member))
             {
                 await MessageHelper.ReplyAsync(ctx, channel, $"Unknown category `{sectionName}`.");
                 return;
             }
 
-            if (sectionName == "mod" && !PermissionHelper.HasPermAsync(member, [PlanetPermissions.Kick, PlanetPermissions.Ban, PlanetPermissions.ManageRoles]).Result)
+            if (sectionName == "mod" && !PermissionHelper.HasPerm(member, [PlanetPermissions.Kick, PlanetPermissions.Ban, PlanetPermissions.ManageRoles]))
             {
                 await MessageHelper.ReplyAsync(ctx, channel, $"Unknown category `{sectionName}`.");
                 return;

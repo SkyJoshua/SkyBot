@@ -10,6 +10,7 @@ namespace SkyBot
         private readonly ValourClient _client;
         private readonly ConcurrentDictionary<long, Channel> _channelCache = new();
         private readonly ConcurrentDictionary<long, bool> _initializedPlanets = new();
+        public static DateTime StartTime;
 
         public SkyBot()
         {
@@ -19,6 +20,7 @@ namespace SkyBot
 
         public async Task StartAsync()
         {
+            StartTime = DateTime.UtcNow;
             await BotService.InitializeBotAsync(_client, _channelCache, _initializedPlanets);
         }
     }
@@ -32,6 +34,7 @@ namespace SkyBot
                 try
                 {
                     await new SkyBot().StartAsync();
+                    
 
                     Console.WriteLine("Ready and listening...");
                     await Task.Delay(Timeout.Infinite);

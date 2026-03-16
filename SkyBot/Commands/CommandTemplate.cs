@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using SkyBot.Helpers;
 using SkyBot.Models;
 using Valour.Sdk.Models;
 
@@ -16,14 +17,9 @@ namespace SkyBot.Commands
         {
             ConcurrentDictionary<long, Channel> channelCache = ctx.ChannelCache;
             long channelId = ctx.ChannelId;
-            PlanetMember member = ctx.Member;
-            
-            string message = $"";
 
-            if (channelCache.TryGetValue(channelId, out var channel))
-            {
-                await MessageHelper.ReplyAsync(ctx, channel, message);
-            }
+            if (!channelCache.TryGetValue(channelId, out var channel)) return;
+            
         }
     }
 }

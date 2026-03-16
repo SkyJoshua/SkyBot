@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using SkyBot.Helpers;
 using SkyBot.Models;
 using Valour.Sdk.Models;
 
@@ -10,7 +11,7 @@ namespace SkyBot.Commands
         public string[] Aliases => [];
         public string Description => "Shows the current version of the Bot and Valour.";
         public string Section => "Info";
-        public string Usage => "";
+        public string Usage => "version";
 
         public async Task Execute(CommandContext ctx)
         {

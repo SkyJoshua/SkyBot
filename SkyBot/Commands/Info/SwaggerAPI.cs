@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using SkyBot.Helpers;
 using SkyBot.Models;
 using Valour.Sdk.Models;
 
@@ -10,7 +11,7 @@ namespace SkyBot.Commands
         public string[] Aliases => ["api"];
         public string Description => "Sends a link to the Valour.gg Swagger API.";
         public string Section => "Info";
-        public string Usage => "swagger|api";
+        public string Usage => "swagger";
 
         public async Task Execute(CommandContext ctx)
         {
