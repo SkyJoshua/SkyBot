@@ -29,23 +29,25 @@ namespace SkyBot.Services.Messages
             string command = parts[0].ToLower();
             string[] args = parts[1..];
 
+            CommandContext ctx = new CommandContext
+            {
+                ChannelCache = channelCache,
+                ChannelId = channelId,
+                Member = member,
+                Planet = message.Planet,
+                Args = args,
+                Message = message,
+                Client = client
+            };
+
             if (CommandRegistry.Commands.TryGetValue(command, out var handler))
             {
-                await handler.Execute(new CommandContext
-                {
-                    ChannelCache = channelCache,
-                    ChannelId = channelId,
-                    Member = member,
-                    Planet = message.Planet,
-                    Args = args,
-                    Message = message,
-                    Client = client
-                });
+                await handler.Execute(ctx);
             } else
             {
                 if (channelCache.TryGetValue(channelId, out var channel))
                 {
-                    await channel.SendMessageAsync($"{MentionHelper.Mention(member)} Unknown command.");
+                    await MessageHelper.ReplyAsync(ctx, channel, $"Unknown command `{command}`.");
                 }
             }
         }

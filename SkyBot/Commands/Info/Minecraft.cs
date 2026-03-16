@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using SkyBot.Helpers;
 using SkyBot.Models;
 using Valour.Sdk.Models;
 
@@ -10,7 +11,7 @@ namespace SkyBot.Commands
         public string[] Aliases => ["mc"];
         public string Description => "Sends the Unofficial ValourSMP IPs";
         public string Section => "Info";
-        public string Usage => "minecraft|mc";
+        public string Usage => "minecraft";
 
         public async Task Execute(CommandContext ctx)
         {

@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using SkyBot.Helpers;
 using SkyBot.Models;
 using Valour.Sdk.Models;
 
@@ -10,7 +11,7 @@ namespace SkyBot.Commands
         public string[] Aliases => ["dev"];
         public string Description => "Sends an invite link to the Dev Central Planet.";
         public string Section => "Info";
-        public string Usage => "devcentral|dev";
+        public string Usage => "devcentral";
 
         public async Task Execute(CommandContext ctx)
         {

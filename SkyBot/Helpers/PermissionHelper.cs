@@ -5,7 +5,7 @@ namespace SkyBot.Helpers
 {
     public static class PermissionHelper
     {
-        public static async Task<bool> HasPermAsync(PlanetMember member, PlanetPermission[] permissions, bool requireAll = false)
+        public static bool HasPerm(PlanetMember member, PlanetPermission[] permissions, bool requireAll = false)
         {
             if (member == null) return false;
             if (member.HasPermission(PlanetPermissions.FullControl)) return true;
@@ -16,7 +16,7 @@ namespace SkyBot.Helpers
                 : permissions.Any(permission => member.HasPermission(permission));
         }
 
-        public static async Task<bool> IsOwner(PlanetMember member)
+        public static bool IsOwner(PlanetMember member)
         {
             
             if (member == null) return false;
