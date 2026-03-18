@@ -1,14 +1,13 @@
 using System.Collections.Concurrent;
-using SkyBot.Services;
 using Valour.Sdk.Client;
+using Valour.Sdk.ModelLogic;
 using Valour.Sdk.Models;
-using Valour.Sdk.Models.Messages.Embeds;
-
 
 namespace SkyBot.Services
 {
     public static class PlanetService
     {
+        private static readonly DateTime _startTime = DateTime.UtcNow;
         public static async Task InitializePlanetsAsync(
             ValourClient client,
             ConcurrentDictionary<long, Channel> channelCache,
@@ -19,15 +18,27 @@ namespace SkyBot.Services
                 .Select(async planet =>
                 {
                     Console.WriteLine($"Initializing Planet: {planet.Name}");
+
                     await planet.EnsureReadyAsync();
                     await planet.FetchInitialDataAsync();
                     await ChannelService.InitializeChannelsAsync(channelCache, planet);
 
-                    planet.Channels.Changed += async (channelEvent) => {
+                    planet.Channels.Changed += async _ =>
+                    {
                         await ChannelService.InitializeChannelsAsync(channelCache, planet);
                     };
-                });
 
+                    planet.Members.Changed += async memberEvent =>
+                    {
+                        if ((DateTime.UtcNow - _startTime).TotalSeconds < 10) return;
+                        if (memberEvent is ModelAddedEvent<PlanetMember> addedEvent)
+                        {
+                            await WelcomeService.OnMemberJoin(addedEvent.Model, channelCache);
+                        }
+                    };
+
+                    initializedPlanets.TryAdd(planet.Id, true);
+                });
             await Task.WhenAll(tasks);
         }
     }

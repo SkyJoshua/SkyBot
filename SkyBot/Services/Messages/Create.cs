@@ -5,10 +5,14 @@ using SkyBot.Models;
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 
+
+
 namespace SkyBot.Services.Messages
 {
     public static class Create
     {
+        private static readonly ConcurrentDictionary<long, DateTime> _cooldowns = new();
+        private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(2);
         public static async Task MessageAsync(
             ValourClient client,
             ConcurrentDictionary<long, Channel> channelCache,
@@ -39,6 +43,11 @@ namespace SkyBot.Services.Messages
                 Message = message,
                 Client = client
             };
+
+            if (_cooldowns.TryGetValue(message.AuthorUserId, out var lastUsed) && DateTime.UtcNow - lastUsed < _cooldown)
+                return;
+
+            _cooldowns[message.AuthorUserId] = DateTime.UtcNow;
 
             if (CommandRegistry.Commands.TryGetValue(command, out var handler))
             {

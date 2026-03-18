@@ -2,6 +2,7 @@ using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using SkyBot.Services;
 using System.Collections.Concurrent;
+using SkyBot.Helpers;
 
 namespace SkyBot
 {
@@ -21,6 +22,8 @@ namespace SkyBot
         public async Task StartAsync()
         {
             StartTime = DateTime.UtcNow;
+            await DatabaseHelper.InitializeAsync();
+            await WelcomeService.InitializeAsync();
             await BotService.InitializeBotAsync(_client, _channelCache, _initializedPlanets);
         }
     }
@@ -34,7 +37,6 @@ namespace SkyBot
                 try
                 {
                     await new SkyBot().StartAsync();
-                    
 
                     Console.WriteLine("Ready and listening...");
                     await Task.Delay(Timeout.Infinite);

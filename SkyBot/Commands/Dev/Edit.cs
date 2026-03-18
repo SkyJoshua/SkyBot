@@ -7,7 +7,7 @@ using Valour.Shared;
 
 namespace SkyBot.Commands
 {
-    public class Test : ICommand
+    public class Edit : ICommand
     {
         public string Name => "edit";
         public string[] Aliases => [];
@@ -29,6 +29,7 @@ namespace SkyBot.Commands
                 if(!PermissionHelper.IsOwner(member))
                 {
                     await MessageHelper.ReplyAsync(ctx, channel, "This is a Dev only command.");
+                    return;
                 }
 
                 if (message.ReplyToId == null)
