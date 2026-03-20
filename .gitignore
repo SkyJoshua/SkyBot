@@ -3,3 +3,5 @@
 SkyBot/bin/
 SkyBot/obj/
 SkyBot/SkyBot.sln
+SkyBot/database.db
+SkyBot/Config.cs
