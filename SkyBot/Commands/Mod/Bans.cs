@@ -11,7 +11,7 @@ namespace SkyBot.Commands
     public class GetBans : ICommand
     {
         public string Name => "bans";
-        public string[] Aliases => [""];
+        public string[] Aliases => [];
         public string Description => "Lists all bans in the planet.";
         public string Section => "Mod";
         public string Usage => "bans [page]";

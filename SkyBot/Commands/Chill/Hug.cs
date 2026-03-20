@@ -12,7 +12,7 @@ namespace SkyBot.Commands
         public string Name => "hug";
         public string[] Aliases => [];
         public string Description => "Send a hug with a random gif.";
-        public string Section => "Fun";
+        public string Section => "Chill";
         public string Usage => "hug [@user]";
 
         private static readonly HttpClient _http = new()
