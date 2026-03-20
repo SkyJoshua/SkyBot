@@ -10,7 +10,7 @@ namespace SkyBot.Commands
     public class Cat : ICommand
     {
         public string Name => "cat";
-        public string[] Aliases => ["kitty", "meow"];
+        public string[] Aliases => [];
         public string Description => "Posts a random cat picture.";
         public string Section => "Fun";
         public string Usage => "cat";
