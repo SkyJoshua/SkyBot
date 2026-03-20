@@ -11,9 +11,46 @@ SkyBot is a Valour.gg bot built with .NET 10.
     <li>Open-source under AGPL-3.0</li>
     <li>Built with .NET 10</li>
     <li>Command system with automatic registration</li>
-    <li>Moderation commands (ban, unban, kick)</li>
-    <li>Fun commands (8ball, coinflip, dice, rock paper scissors, and more)</li>
-    <li>Info commands (user info, planet info, ping, uptime)</li>
+</ul>
+<h3>Fun</h3>
+<ul>
+    <li>8ball — ask the magic 8 ball a question</li>
+    <li>coinflip — flip a coin</li>
+    <li>dice — roll a die</li>
+    <li>rockpaperscissors — play rock paper scissors against the bot</li>
+    <li>choose — pick one of the given options</li>
+    <li>echo — repeat text through the bot</li>
+    <li>reverse — reverse yours or a replied message</li>
+    <li>mock — mOcK tExT</li>
+    <li>t9encode / t9decode — encode or decode old phone keypad multi-tap digits</li>
+    <li>hangman — channel-wide game of hangman with optional category (<code>hg &lt;letter or word&gt;</code> to guess)</li>
+    <li>wordle — channel-wide Wordle; guess the 5-letter word in 6 tries (<code>wg &lt;word&gt;</code> to guess)</li>
+    <li>trivia — channel-wide trivia question with 30 seconds to answer (<code>tg &lt;A/B/C/D&gt;</code> to guess)</li>
+</ul>
+<h3>Chill</h3>
+<ul>
+    <li>cat — post a random cat picture</li>
+    <li>hug — send a hug with a random gif</li>
+</ul>
+<h3>Info</h3>
+<ul>
+    <li>ping — check bot latency</li>
+    <li>uptime — show how long the bot has been running</li>
+    <li>info — user and planet info</li>
+    <li>version — show the current bot and Valour SDK version</li>
+    <li>usercount — show the total Valour user count</li>
+    <li>source — link to the bot's source code</li>
+    <li>joinsite — link to a site to help bots join a planet</li>
+    <li>devcentral — invite link to the Dev Central planet</li>
+    <li>swagger — link to the Valour API docs</li>
+    <li>minecraft — Unofficial ValourSMP server IPs</li>
+    <li>suggest — submit a suggestion for the bot</li>
+</ul>
+<h3>Moderation</h3>
+<ul>
+    <li>ban / unban / kick — member moderation</li>
+    <li>bans — list all bans in the planet</li>
+    <li>setwelcome — configure a welcome channel and message</li>
 </ul>
 <h2>Data &amp; Privacy</h2>
 <p>SkyBot stores only the minimum data required for operation. All data is stored in-memory and is lost on restart. SkyBot does <strong>not</strong> persist any data to disk.</p>
