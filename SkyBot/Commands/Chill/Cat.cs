@@ -12,7 +12,7 @@ namespace SkyBot.Commands
         public string Name => "cat";
         public string[] Aliases => [];
         public string Description => "Posts a random cat picture.";
-        public string Section => "Fun";
+        public string Section => "Chill";
         public string Usage => "cat";
 
         private static readonly HttpClient _http = new();
