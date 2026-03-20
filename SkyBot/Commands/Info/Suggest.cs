@@ -9,7 +9,7 @@ namespace SkyBot.Commands
     {
         public string Name => "suggest";
         public string[] Aliases => [];
-        public string Description => "Shows the source code for this bot.";
+        public string Description => "Sends a link to where you can suggest commands.";
         public string Section => "Info";
         public string Usage => "source";
 
