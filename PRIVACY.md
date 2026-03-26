@@ -52,6 +52,7 @@
   <li><strong>Open Trivia Database</strong> (opentdb.com) — trivia questions for Trivia</li>
   <li><strong>The Cat API</strong> (thecatapi.com) — random cat images for the cat command</li>
   <li><strong>nekos.best</strong> (nekos.best) — hug GIFs for the hug command</li>
+  <li><strong>Pixabay</strong> (pixabay.com) — images for the image command</li>
 </ul>
 <hr>
 <h2>4. Data Retention</h2>

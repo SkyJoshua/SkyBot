@@ -26,6 +26,7 @@ SkyBot is a Valour.gg bot built with .NET 10.
     <li>hangman — channel-wide game of hangman with optional category (<code>hg &lt;letter or word&gt;</code> to guess)</li>
     <li>wordle — channel-wide Wordle; guess the 5-letter word in 6 tries (<code>wg &lt;word&gt;</code> to guess)</li>
     <li>trivia — channel-wide trivia question with 30 seconds to answer (<code>tg &lt;A/B/C/D&gt;</code> to guess)</li>
+    <li>image — fetch a random image matching your search (aliases: <code>img</code>)</li>
 </ul>
 <h3>Chill</h3>
 <ul>
@@ -86,6 +87,7 @@ available under the same license.
 <ul>
     <li>.NET 10</li>
     <li>A Valour bot token</li>
+    <li>A <a href="https://pixabay.com/api/docs/">Pixabay API key</a> (free) — required for the <code>image</code> command</li>
 </ul>
 <h2>Installation</h2>
 <p>Fork this repository, then:</p>
@@ -100,6 +102,7 @@ provided <code>SkyBot.csproj</code> file.
 <h2>Configuration</h2>
 <p>Create a <code>.env</code> file in the root directory of the project with your bot token:</p>
 <pre><code>TOKEN=your-bot-token-here
+PIXABAY_API_KEY=your-pixabay-api-key-here
 </code></pre>
 <p>Then open <code>Config.cs</code> and update the following values:</p>
 <pre><code>public static readonly long OwnerId = your-owner-id-here;
