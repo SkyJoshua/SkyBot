@@ -79,10 +79,11 @@ namespace SkyBot.Commands
             }
 
             var sb = new StringBuilder();
-            sb.AppendLine($"**{target.Name}**");
+            sb.AppendLine($"**{target.Name.Trim()}**");
             sb.AppendLine($"User ID: `{target.UserId}`");
             sb.AppendLine($"Member ID: `{target.Id}`");
             sb.AppendLine($"Nickname: `{(string.IsNullOrWhiteSpace(target.Nickname) ? "None" : target.Nickname)}`");
+            sb.AppendLine($"Subscription: `{(string.IsNullOrWhiteSpace(target.User.SubscriptionType) ? "None" : target.User.SubscriptionType)}`");
             sb.AppendLine($"Status: `{(string.IsNullOrWhiteSpace(target.Status) ? "None" : target.Status)}`");
             sb.AppendLine($"Primary Role: `{target.PrimaryRole?.Name ?? "None"}`");
             sb.AppendLine($"Roles: `{string.Join(", ", target.Roles.Select(r => r.Name))}`");
