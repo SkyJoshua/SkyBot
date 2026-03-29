@@ -6,6 +6,7 @@ namespace SkyBot.Helpers
         private static readonly HttpClient _http = new HttpClient();
         private static long _valourUsercount;
         public static long ValourUsercount => _valourUsercount;
+        
         public static async Task UpdateUsercount()
         {
             try

@@ -27,7 +27,7 @@ namespace SkyBot.Commands
             if (!channelCache.TryGetValue(channelId, out var channel)) return;
             
             string msg = @"Here is a link to a Bot Guide that SkyJoshua has made (WIP):
-                        https://github.com/SkyJoshua/Valour-Bot-Guide";
+                        https://git.skyjoshua.xyz/SkyJoshua/Valour-Bot-Guide";
 
             await MessageHelper.ReplyAsync(ctx, channel, msg);
         }

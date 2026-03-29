@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
-using SkyBot.Helpers;
 using SkyBot.Models;
+using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 
 namespace SkyBot.Commands
@@ -15,8 +15,13 @@ namespace SkyBot.Commands
 
         public async Task Execute(CommandContext ctx)
         {
-            ConcurrentDictionary<long, Channel> channelCache = ctx.ChannelCache;
-            long channelId = ctx.ChannelId;
+        ValourClient Client = ctx.Client;
+        ConcurrentDictionary<long, Channel> channelCache = ctx.ChannelCache;
+        PlanetMember Member = ctx.Member;
+        Message Message = ctx.Message;
+        Planet Planet = ctx.Planet;
+        long channelId = ctx.ChannelId;
+        string[] Args = ctx.Args;
 
             if (!channelCache.TryGetValue(channelId, out var channel)) return;
             

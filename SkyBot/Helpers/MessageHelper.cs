@@ -1,3 +1,4 @@
+using System.Globalization;
 using SkyBot.Models;
 using Valour.Sdk.Models;
 using Valour.Shared;
@@ -10,6 +11,7 @@ namespace SkyBot.Helpers
         public static string Mention(this PlanetMember member) => $"«@m-{member.Id}»";
         public static string Mention(this User user) => $"«@u-{user.Id}»";
         public static string ToTitleCase(this string str) => System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
+        
         public static async Task<TaskResult<Message>> ReplyAsync(CommandContext ctx, Channel channel, string content)
         {
             long? replyToId = ctx.Message.ReplyToId.HasValue ? ctx.Message.ReplyToId : ctx.Message.Id;
@@ -26,11 +28,13 @@ namespace SkyBot.Helpers
             };
             return await ctx.Client.MessageService.SendMessage(msg);
         }
+
         public static async Task<TaskResult<Message>> EditAsync(Channel channel, Message message, string content)
         {
             message.Content = content;
             return await channel.Planet.Node.PutAsyncWithResponse<Message>($"api/messages/{message.Id}", message);
         }
+
         public static DateTime? ParseDuration(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return null;
@@ -48,6 +52,20 @@ namespace SkyBot.Helpers
                 'y' => DateTime.UtcNow.AddYears(value),
                 _ => null
             };
+        }
+
+        public static bool IsSingleEmoji(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return false;
+
+            input = input.Trim();
+
+            var enumerator = StringInfo.GetTextElementEnumerator(input);
+            int count = 0;
+
+            while (enumerator.MoveNext()) count++;
+
+            return count == 1;
         }
     }
 }

@@ -23,16 +23,13 @@ namespace SkyBot.Services.Messages
             string prefix = Config.Prefix;
             string content = message.Content ?? "";
             if (string.IsNullOrWhiteSpace(content)) return;
-            if (!content.ToLower().StartsWith(prefix)) return;
-
             long channelId = message.ChannelId;
             PlanetMember member = await message.FetchAuthorMemberAsync();
+            noPrefixMessages(message, content);
             var parts = content.Substring(prefix.Length).Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0) return;
-            
             string command = parts[0].ToLower();
             string[] args = parts[1..];
-
             CommandContext ctx = new CommandContext
             {
                 ChannelCache = channelCache,
@@ -44,6 +41,21 @@ namespace SkyBot.Services.Messages
                 Client = client
             };
 
+            async void noPrefixMessages(Message message, string content)
+            {
+                if (message.AuthorUserId == Config.OwnerId)
+                {
+                    if (MessageHelper.IsSingleEmoji(content))
+                    {
+                        await message.AddReactionAsync(content);
+                    }
+                }
+
+                // await message.AddReactionAsync("🫃");
+            }
+
+
+            if (!content.ToLower().StartsWith(prefix)) return;
             if (_cooldowns.TryGetValue(message.AuthorUserId, out var lastUsed) && DateTime.UtcNow - lastUsed < _cooldown)
                 return;
 
